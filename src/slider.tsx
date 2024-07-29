@@ -112,6 +112,8 @@ export function Slider() {
 
   const degrees = `-${angle}deg`;
 
+  const monthNumber = Math.floor(angle / 30);
+
   return (
     <div
       className={cn(
@@ -150,9 +152,17 @@ export function Slider() {
               className={cn(
                 "rounded-full [box-shadow:var(--box-shadow-inner)]",
                 "w-[calc(var(--inner-radius)*2)] h-[calc(var(--inner-radius)*2)] bg-primary",
-                "absolute inset-0 m-auto"
+                "absolute inset-0 m-auto",
+                "flex justify-center items-center flex-col"
               )}
-            />
+            >
+              <div className="text-[96px] leading-[1] font-bold text-black">
+                {monthNumber}
+              </div>
+              <div className="text-base text-black font-bold">
+                {monthNumber === 1 ? "month" : "months"}
+              </div>
+            </div>
             <button
               {...dragProps}
               className={cn(
