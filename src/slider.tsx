@@ -8,7 +8,7 @@ export function Slider() {
   const outerCircleRef = useRef<HTMLDivElement>(null);
   const dragPreviewRef = useRef(null);
 
-  const { dragProps, dragButtonProps } = useDrag({
+  const { dragProps } = useDrag({
     preview: dragPreviewRef,
     onDragMove(event) {
       const { x: clientX, y: clientY } = event;
@@ -85,7 +85,6 @@ export function Slider() {
             />
             <button
               {...dragProps}
-              {...dragButtonProps}
               className={cn(
                 "rounded-full",
                 "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)] bg-red-400",
