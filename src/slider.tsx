@@ -127,7 +127,8 @@ export function Slider() {
       <div
         className={cn(
           "rounded-full",
-          "relative w-[calc(var(--outer-radius)*2)] h-[calc(var(--outer-radius)*2)] bg-primary-selected",
+          "bg-secondary-core [box-shadow:var(--box-shadow-outer)]",
+          "relative w-[calc(var(--outer-radius)*2)] h-[calc(var(--outer-radius)*2)]",
           "[--ball-radius:calc(var(--outer-radius)*0.5-var(--inner-radius)*0.5)]", // calculate the ball radius
           "[--orbit-radius:calc(var(--outer-radius)-var(--ball-radius))]" // calculate the orbit radius
         )}
@@ -147,7 +148,7 @@ export function Slider() {
           >
             <div
               className={cn(
-                "rounded-full",
+                "rounded-full [box-shadow:var(--box-shadow-inner)]",
                 "w-[calc(var(--inner-radius)*2)] h-[calc(var(--inner-radius)*2)] bg-primary",
                 "absolute inset-0 m-auto"
               )}
@@ -156,10 +157,13 @@ export function Slider() {
               {...dragProps}
               className={cn(
                 "rounded-full",
-                "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)] bg-primary-core",
-                "absolute top-[var(--ball-x)] left-[var(--ball-y)] cursor-grab"
+                "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)]",
+                "absolute top-[var(--ball-x)] left-[var(--ball-y)] cursor-grab",
+                "flex justify-center items-center p-2 bg-transparent"
               )}
-            />
+            >
+              <span className="w-full h-full rounded-full bg-primary-selected [box-shadow:var(--box-shadow-knob)]" />
+            </button>
             <DragPreview ref={dragPreviewRef}>
               {() => {
                 // we don't want to show the drag preview
@@ -190,7 +194,7 @@ function MonthAnchor({ angle, className, ...rest }: MonthAnchorProps) {
         {...rest}
         className={cn(
           "rounded-full",
-          "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)] bg-red-400",
+          "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)]",
           "absolute top-[var(--ball-x)] left-[var(--ball-y)] cursor-grab",
           className
         )}
@@ -209,10 +213,7 @@ function AllMonthAnchors({ onMonthClick }: AllMonthAnchorsProps) {
         <MonthAnchor
           key={name}
           angle={angle}
-          className={cn(
-            "text-white cursor-pointer bg-primary-selected",
-            "flex justify-center items-center"
-          )}
+          className={cn("cursor-pointer", "flex justify-center items-center")}
           onClick={() => onMonthClick(name)}
         >
           <div className="rounded-full w-1 h-1 bg-slate-500 hover:bg-slate-700" />

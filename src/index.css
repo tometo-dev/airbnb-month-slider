@@ -7,4 +7,34 @@
   --bg-primary-selected: #f7f7f7;
   --bg-primary-core: #ff385c;
   --bg-primary-plus: #92174d;
+  --bg-primary-luxe: #460479;
+
+  --bg-secondary: #f7f7f7;
+  --bg-secondary-core: linear-gradient(
+    to right,
+    #e61e4d 0%,
+    #e31c5f 50%,
+    #d70466 100%
+  );
+  --bg-secondary-plus: linear-gradient(
+    to right,
+    #bd1e59 0%,
+    #92174d 50%,
+    #861453 100%
+  );
+  --bg-secondary-luxe: linear-gradient(
+    to right,
+    #59086e 0%,
+    #460479 50%,
+    #440589 100%
+  );
+
+  --box-shadow-outer: 0 -5px 5px rgba(0, 0, 0, 0.2), 0 5px 5px #ffffff,
+    inset 0 -20px 30px #ffffffe5, inset 0 10px 20px rgba(0, 0, 0, 0.2);
+  --box-shadow-inner: 0 -5px 5px rgba(255, 255, 255, 0.4),
+    inset 0 5px 3px rgba(255, 255, 255, 0.8),
+    inset 0 -5px 5px rgba(0, 0, 0, 0.2), 0 11px 18px rgba(0, 0, 0, 0.18),
+    0 -20px 30px rgba(255, 255, 255, 0.8);
+  --box-shadow-knob: 0 2px 2px rgba(225, 0, 35, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.35), inset 0 2px 2px #ffffff;
 }
