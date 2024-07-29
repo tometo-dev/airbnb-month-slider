@@ -2,6 +2,59 @@ import { useRef, useState } from "react";
 import { DragPreview, useDrag } from "react-aria";
 import { cn } from "./utils";
 
+const MONTHS = [
+  {
+    name: "Jan",
+    angle: 0,
+  },
+  {
+    name: "Feb",
+    angle: 30,
+  },
+  {
+    name: "Mar",
+    angle: 60,
+  },
+  {
+    name: "Apr",
+    angle: 90,
+  },
+  {
+    name: "May",
+    angle: 120,
+  },
+  {
+    name: "Jun",
+    angle: 150,
+  },
+  {
+    name: "Jul",
+    angle: 180,
+  },
+  {
+    name: "Aug",
+    angle: 210,
+  },
+  {
+    name: "Sep",
+    angle: 240,
+  },
+  {
+    name: "Oct",
+    angle: 270,
+  },
+  {
+    name: "Nov",
+    angle: 300,
+  },
+  {
+    name: "Dec",
+    angle: 330,
+  },
+] as const;
+
+type Month = (typeof MONTHS)[number]["name"];
+
 export function Slider() {
   const [angle, setAngle] = useState(0);
 
@@ -38,10 +91,24 @@ export function Slider() {
         setAngle(angle);
       }
     },
+    onDragEnd() {
+      // snap the knob to the nearest month
+      const nearestMonth = MONTHS.reduce((prev, curr) =>
+        Math.abs(curr.angle - angle) < Math.abs(prev.angle - angle)
+          ? curr
+          : prev
+      );
+      setAngle(nearestMonth.angle);
+    },
     getItems() {
       return [];
     },
   });
+
+  const handleMonthClick = (month: Month) => {
+    const { angle } = MONTHS.find((m) => m.name === month)!;
+    setAngle(angle);
+  };
 
   const degrees = `-${angle}deg`;
 
@@ -59,7 +126,7 @@ export function Slider() {
       <div
         className={cn(
           "rounded-full",
-          "relative w-[calc(var(--outer-radius)*2)] h-[calc(var(--outer-radius)*2)] bg-blue-300",
+          "relative w-[calc(var(--outer-radius)*2)] h-[calc(var(--outer-radius)*2)] bg-primary-selected",
           "[--ball-radius:calc(var(--outer-radius)*0.5-var(--inner-radius)*0.5)]", // calculate the ball radius
           "[--orbit-radius:calc(var(--outer-radius)-var(--ball-radius))]" // calculate the orbit radius
         )}
@@ -70,6 +137,7 @@ export function Slider() {
             "[--ball-origin:calc(var(--inner-radius)+var(--ball-radius))]" // calculate the ball origin
           )}
         >
+          <AllMonthAnchors onMonthClick={handleMonthClick} />
           <div
             className={cn(
               "[--ball-x:calc(var(--ball-origin)-var(--orbit-radius)*cos(var(--angle)))]", // calculate the x position of the ball
@@ -79,7 +147,7 @@ export function Slider() {
             <div
               className={cn(
                 "rounded-full",
-                "w-[calc(var(--inner-radius)*2)] h-[calc(var(--inner-radius)*2)] bg-blue-500",
+                "w-[calc(var(--inner-radius)*2)] h-[calc(var(--inner-radius)*2)] bg-primary",
                 "absolute inset-0 m-auto"
               )}
             />
@@ -87,7 +155,7 @@ export function Slider() {
               {...dragProps}
               className={cn(
                 "rounded-full",
-                "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)] bg-red-400",
+                "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)] bg-primary-core",
                 "absolute top-[var(--ball-x)] left-[var(--ball-y)] cursor-grab"
               )}
             />
@@ -101,5 +169,54 @@ export function Slider() {
         </div>
       </div>
     </div>
+  );
+}
+
+interface MonthAnchorProps extends React.ComponentProps<"button"> {
+  angle: number;
+}
+
+function MonthAnchor({ angle, className, ...rest }: MonthAnchorProps) {
+  return (
+    <div
+      style={{ "--angle": `-${angle}deg` } as React.CSSProperties}
+      className={cn(
+        "[--ball-x:calc(var(--ball-origin)-var(--orbit-radius)*cos(var(--angle)))]", // calculate the x position of the ball
+        "[--ball-y:calc(var(--ball-origin)-var(--orbit-radius)*sin(var(--angle)))]" // calculate the y position of the ball
+      )}
+    >
+      <button
+        {...rest}
+        className={cn(
+          "rounded-full",
+          "w-[calc(var(--ball-radius)*2)] h-[calc(var(--ball-radius)*2)] bg-red-400",
+          "absolute top-[var(--ball-x)] left-[var(--ball-y)] cursor-grab",
+          className
+        )}
+      />
+    </div>
+  );
+}
+
+type AllMonthAnchorsProps = {
+  onMonthClick: (month: Month) => void;
+};
+function AllMonthAnchors({ onMonthClick }: AllMonthAnchorsProps) {
+  return (
+    <>
+      {MONTHS.map(({ name, angle }) => (
+        <MonthAnchor
+          key={name}
+          angle={angle}
+          className={cn(
+            "text-white cursor-pointer bg-primary-selected",
+            "flex justify-center items-center"
+          )}
+          onClick={() => onMonthClick(name)}
+        >
+          <div className="rounded-full w-1 h-1 bg-slate-500 hover:bg-slate-700" />
+        </MonthAnchor>
+      ))}
+    </>
   );
 }

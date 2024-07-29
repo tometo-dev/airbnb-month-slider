@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-primary-selected: #f7f7f7;
+  --bg-primary-core: #ff385c;
+  --bg-primary-plus: #92174d;
+}
