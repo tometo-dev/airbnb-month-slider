@@ -114,11 +114,12 @@ export function Slider() {
 
   return (
     <div
-      className="text-blue-500 w-full h-full flex items-center justify-center"
+      className={cn(
+        "text-blue-500 w-full h-full flex items-center justify-center",
+        "[--outer-radius:10rem] [--inner-radius:6rem] sm:[--outer-radius:15rem] sm:[--inner-radius:10rem]"
+      )}
       style={
         {
-          "--outer-radius": "15rem",
-          "--inner-radius": "10rem",
           "--angle": degrees,
         } as React.CSSProperties
       }
